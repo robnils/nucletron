@@ -25,6 +25,7 @@ public class NucleonSpawner : MonoBehaviour
     {
         Nucleon prefab = nucleonPrefabs[Random.Range(0, nucleonPrefabs.Length)];
         Nucleon spawn = Instantiate<Nucleon>(prefab);
+
         spawn.transform.localPosition = Random.onUnitSphere * spawnDistance;
     }
 }
