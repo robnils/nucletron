@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Nucleon : MonoBehaviour {
+public class Meteor : MonoBehaviour {
 
     public float attractionForce;
     private GameObject player;

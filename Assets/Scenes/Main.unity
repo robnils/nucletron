@@ -477,7 +477,7 @@ GameObject:
   - component: {fileID: 510094277}
   - component: {fileID: 510094276}
   m_Layer: 0
-  m_Name: NucleonSpawner
+  m_Name: MeteorSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -494,12 +494,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ef16702d959cc42be6715220c77164, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenSpawns: 0.1
-  spawnDistance: 50
-  nucleonPrefabs:
+  timeBetweenSpawns: 0.01
+  spawnDistance: 100
+  meteors:
   - {fileID: 114559188469666780, guid: 7b6d583c7248e7142a6ae47efa30ab49, type: 2}
-  - {fileID: 114559188469666780, guid: 7b6d583c7248e7142a6ae47efa30ab49, type: 2}
-  timeSinceLastSpawn: 0
 --- !u!4 &510094277
 Transform:
   m_ObjectHideFlags: 0
