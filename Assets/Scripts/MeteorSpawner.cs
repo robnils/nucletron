@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-public class MeteorSpawner : MonoBehaviour
+public class NucleonSpawner : MonoBehaviour
 {
 
     public float timeBetweenSpawns;
 
     public float spawnDistance;
 
-    public Meteor[] meteorPrefabs;
+    public Nucleon[] nucleonPrefabs;
 
     float timeSinceLastSpawn;
 
@@ -23,9 +23,8 @@ public class MeteorSpawner : MonoBehaviour
 
     void SpawnNucleon()
     {
-
-        Meteor prefab = meteorPrefabs[Random.Range(0, meteorPrefabs.Length)];
-        Meteor spawn = Instantiate<Meteor>(prefab);
+        Nucleon prefab = nucleonPrefabs[Random.Range(0, nucleonPrefabs.Length)];
+        Nucleon spawn = Instantiate<Nucleon>(prefab);
 
         spawn.transform.localPosition = Random.onUnitSphere * spawnDistance;
     }

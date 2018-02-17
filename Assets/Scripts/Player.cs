@@ -6,9 +6,12 @@ public class Player : MonoBehaviour {
 
     public int fallDeathHeight;
     public GameObject ground;
-    private GameObject player; 
+    private GameObject player;
+    private int health; 
+
 	void Start () {
         player = gameObject;
+        health = 3; 
 	}
 	
 	// Update is called once per frame

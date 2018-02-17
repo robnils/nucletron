@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 23977372112885880}
   - component: {fileID: 54512283005191988}
   - component: {fileID: 114559188469666780}
-  - component: {fileID: 114711493280536708}
   m_Layer: 0
   m_Name: Neutron_fire
   m_TagString: Untagged
@@ -114,22 +113,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attractionForce: 10
   explosionPrefab: {fileID: 423882, guid: 3c5f4e32698bdb04eaed647f60310510, type: 2}
---- !u!114 &114711493280536708
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1600260283467288}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b85cb039b6d149f46b051488d2465561, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Seed: 100
-  IntensityModifier: 2
-  IntensityMaxRange:
-    Minimum: 0
-    Maximum: 8
 --- !u!135 &135142371047277140
 SphereCollider:
   m_ObjectHideFlags: 1
