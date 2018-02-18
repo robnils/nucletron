@@ -11,7 +11,9 @@ public class WorldGenerator : MonoBehaviour {
     private const float MAX_DISTANCE_BETWEEN_PLATFORMS = 3.0f;
     private const float MIN_DISTANCE_BETWEEN_PLATFORMS = 1.0f;
     private const int PATH_LENGTH_MIN = 3;
-    private const int PATH_LENGTH_MAX = 6;
+    private const int PATH_LENGTH_MAX = 6; 
+    private const int PATH_HEIGHT_MIN = -2;
+    private const int PATH_HEIGHT_MAX = 2;
 
     // Stairs
     private const int DISTANCE_BETWEEN_STEPS = 7;
@@ -38,6 +40,7 @@ public class WorldGenerator : MonoBehaviour {
         }
     }
     private Transform BuildWorld() {
+        // TODO prevent collisions by forcing new direction generation if it the platform collides
         var main = CreatePlatform(Vector3.zero);
 
         var startingPlatform = BuildStairs(main.transform, 1, 7, GetRandomPlusMinus());
@@ -67,8 +70,8 @@ public class WorldGenerator : MonoBehaviour {
 
         for (int idx = 0; idx < depth; idx++) {
             Debug.Log("Building: " + current);
-            var height = Random.Range(-2, 2);
-            var newPlatform = BuildInDirection(platform, current, height);
+            var height = Random.Range(PATH_HEIGHT_MIN, PATH_HEIGHT_MAX);
+            var newPlatform = BuildInDirection(platform, current, height, 5.0f);
             var newDirection = GetRandomDirection(current);            
             current = newDirection;
             platform = newPlatform; 
@@ -101,8 +104,8 @@ public class WorldGenerator : MonoBehaviour {
         }
         return newDirection;
     }
-    
-    private Transform BuildInDirection(Transform platform, Vector3 direction, int height) {
+
+    private Transform BuildInDirection(Transform platform, Vector3 direction, int height, float variation) {
         var x = platform.localPosition.x;
         var y = platform.localPosition.y;
         var z = platform.localPosition.z;
@@ -111,11 +114,24 @@ public class WorldGenerator : MonoBehaviour {
         var distanceBetweenPlatforms = Random.Range(MIN_DISTANCE_BETWEEN_PLATFORMS, MAX_DISTANCE_BETWEEN_PLATFORMS);
         var newPosition = platform.localPosition + direction * (width + distanceBetweenPlatforms);
         newPosition.y += height;
-        
+
+        float xVariation = Random.Range(-variation, variation);
+        float yVariation = Random.Range(-variation, variation);
+        newPosition.x += xVariation;
+
+        var sizeVariation = Random.Range(-1.0f, 1.0f); ;
+        //newPosition.z += yVariation;
         var newPlatform = CreatePlatform(newPosition);
+        newPlatform.transform.localScale += new Vector3(xVariation, 0, 0);
+
         platform = newPlatform;
         return platform;
     }
+
+    private Transform BuildInDirection(Transform platform, Vector3 direction, int height) {
+        return BuildInDirection(platform, direction, height, 0.0f);
+    }
+
 
     private Transform BuildInDirection(Transform platform, Vector3 direction) {
         return BuildInDirection(platform, direction);
