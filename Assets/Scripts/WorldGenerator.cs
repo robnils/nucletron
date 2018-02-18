@@ -7,20 +7,33 @@ public class WorldGenerator : MonoBehaviour {
     public Transform platform;
     private List<Transform> platforms;
 
+    // Platform path
     private const float MAX_DISTANCE_BETWEEN_PLATFORMS = 3.0f;
     private const float MIN_DISTANCE_BETWEEN_PLATFORMS = 1.0f;
+
+    // Stairs
+    private const int DISTANCE_BETWEEN_STEPS = 7;
+    private const int STEP_HEIGHT_MIN = 1;
+    private const int STEP_HEIGHT_MAX = 3;
+    private const int STAIRS_DIRECTION = 1; // +/- 1
+
     private Vector3[] directions2d = { Vector3.left, Vector3.right, Vector3.forward, Vector3.back };
 
     void Start () {
         platforms = new List<Transform>();
-        var main = GameObject.FindGameObjectWithTag("Main");
+        //var main = GameObject.FindGameObjectWithTag("Main");
+        var main = CreatePlatform(Vector3.zero);
 
-        var platform = BuildStairs(main.transform, 1, 7);
+
+        var startingPlatform = BuildStairs(main.transform, 1, 7);
         var startingDirection = Vector3.forward;
-        BuildPath(platform, startingDirection, 5);
+
+        var platform = BuildPath(startingPlatform, startingDirection, 5);
+        platform = BuildStairs(platform, 3, DISTANCE_BETWEEN_STEPS);
+        platform = BuildPath(platform, startingDirection, 4);
     }
 
-    private Vector3 BuildPath(Transform startPlatform, Vector3 startDirection, int depth) {
+    private Transform BuildPath(Transform startPlatform, Vector3 startDirection, int depth) {
         var current = startDirection;
         var platform = startPlatform;
 
@@ -31,7 +44,7 @@ public class WorldGenerator : MonoBehaviour {
             current = newDirection;
             platform = newPlatform; 
         }
-        return current;
+        return platform;
     }
 
     private Vector3 GetBackwardsDirectionFromPrevious(Vector3 previousDirection) {
@@ -70,13 +83,21 @@ public class WorldGenerator : MonoBehaviour {
         //var newPosition = new Vector3(x + direction.x, y + direction.y, z + direction.z);
         var newPosition = platform.localPosition + direction * (width + distanceBetweenPlatforms);
 
-        var newPlatform = Instantiate(this.platform, newPosition, Quaternion.identity);
-        platforms.Add(newPlatform);
+        //var newPlatform = Instantiate(this.platform, newPosition, Quaternion.identity);
+        //platforms.Add(newPlatform);
+        var newPlatform = CreatePlatform(newPosition);
         platform = newPlatform;
         return platform;
     }
 
+    private Transform CreatePlatform(Vector3 position) {
+        var newPlatform = Instantiate(this.platform, position, Quaternion.identity);
+        platforms.Add(newPlatform);
+        return newPlatform;
+    }
+
     private Transform BuildStairs(Transform platform, int numberOfSteps, int distanceBetweenSteps) {
+        
         for (int idx = 0; idx < numberOfSteps; idx++) {
             var x = platform.localPosition.x;
             var y = platform.localPosition.y;
@@ -86,10 +107,12 @@ public class WorldGenerator : MonoBehaviour {
             var yScale = platform.localScale.y;
             var zScale = platform.localScale.z;
 
-            var newPosition = new Vector3(x + (int)(xScale * 0.5f) + distanceBetweenSteps, y + 1, z);
+            int stepHeight = Random.Range(STEP_HEIGHT_MIN, STEP_HEIGHT_MAX);
+            var newPosition = new Vector3(x + (int)(xScale * 0.5f) + distanceBetweenSteps, (STAIRS_DIRECTION) * (y + stepHeight), z);
 
-            var newPlatform = Instantiate(this.platform, newPosition, Quaternion.identity);
-            platforms.Add(newPlatform);
+            //var newPlatform = Instantiate(this.platform, newPosition, Quaternion.identity);
+            //platforms.Add(newPlatform);
+            var newPlatform = CreatePlatform(newPosition);
             platform = newPlatform;
         }
         return platform;
