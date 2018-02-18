@@ -7,12 +7,15 @@ public class Meteor : MonoBehaviour {
     private GameObject player;
     public Transform explosionPrefab;
 
+    private float timeToLive;
+    private float timSinceSpawn;
+
     Rigidbody body;
 
     void Awake() {
         body = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player");
-
+        timeToLive = Random.Range(5.0f, 15.0f);
         if (player == null) {
             throw new System.Exception("player not found, programming error");
         }
@@ -25,7 +28,17 @@ public class Meteor : MonoBehaviour {
             Destroy(this);
         }
         */
-        body.AddForce(transform.localPosition * -attractionForce);
+        timSinceSpawn += Time.deltaTime;
+        if (timSinceSpawn >= timeToLive) {
+            timSinceSpawn -= timeToLive;
+            DestroyMeteor(transform.localPosition, transform.localRotation);
+        }
+        //body.AddForce(transform.localPosition * -attractionForce);
+    }
+
+    private void DestroyMeteor(Vector3 pos, Quaternion rot) {
+        Instantiate(explosionPrefab, pos, rot);
+        Destroy(gameObject);
     }
 
     void OnCollisionEnter(Collision collision) {
@@ -36,7 +49,6 @@ public class Meteor : MonoBehaviour {
         ContactPoint contact = collision.contacts[0];
         Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
         Vector3 pos = contact.point;
-        Instantiate(explosionPrefab, pos, rot);
-        Destroy(gameObject);
+        DestroyMeteor(pos, rot);
     }
 }

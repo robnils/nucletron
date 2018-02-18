@@ -10,8 +10,8 @@ GameObject:
   - component: {fileID: 451472}
   - component: {fileID: 3366386}
   - component: {fileID: 2332776}
+  - component: {fileID: 114746700682207584}
   - component: {fileID: 5448022}
-  - component: {fileID: 11466172}
   - component: {fileID: 9617906}
   - component: {fileID: 8206854}
   - component: {fileID: 13509832}
@@ -282,17 +282,6 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 1
   m_Autodestruct: 0
---- !u!114 &11466172
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 164416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e03644fdf51cfd34f8fdc92879c31a14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!135 &13509832
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -316,3 +305,14 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 164416}
   m_IsPrefabParent: 1
+--- !u!114 &114746700682207584
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 164416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e03644fdf51cfd34f8fdc92879c31a14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
