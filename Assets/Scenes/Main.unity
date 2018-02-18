@@ -791,6 +791,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platform: {fileID: 4802063026738324, guid: 9bea320d2a917b840abcf14951b8afdd, type: 2}
+  finish: {fileID: 4711567378630488, guid: 27af9ddb69f224b4dbb55e0c5fad1e04, type: 2}
+  finishPlatform: {fileID: 4563549558595550, guid: daa7761a5d2c3414da1d2db411873085,
+    type: 2}
+  finishPillar: {fileID: 4432863991471694, guid: 9c902d823f119f34aafcdeef244f8a70,
+    type: 2}
 --- !u!4 &1753107178
 Transform:
   m_ObjectHideFlags: 0
