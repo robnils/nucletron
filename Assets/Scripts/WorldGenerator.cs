@@ -17,20 +17,24 @@ public class WorldGenerator : MonoBehaviour {
 
         var platform = BuildStairs(main.transform, 1, 7);
         var startingDirection = Vector3.forward;
-        BuildPath(startingDirection, 5);
+        BuildPath(platform, startingDirection, 5);
     }
 
-    private Vector3 BuildPath(Vector3 start, int depth) {
-        var current = start;
+    private Vector3 BuildPath(Transform startPlatform, Vector3 startDirection, int depth) {
+        var current = startDirection;
+        var platform = startPlatform;
+
         for (int idx = 0; idx < depth; idx++) {
-            BuildSomeDirection(platform, current);
-            var newDirection = getRandomDirection(current);            
+            Debug.Log("Building: " + current);
+            var newPlatform = BuildSomeDirection(platform, current);
+            var newDirection = GetRandomDirection(current);            
             current = newDirection;
+            platform = newPlatform; 
         }
         return current;
     }
 
-    private Vector3 getBackwardsDirectionFromPrevious(Vector3 previousDirection) {
+    private Vector3 GetBackwardsDirectionFromPrevious(Vector3 previousDirection) {
         if (previousDirection == Vector3.back) {
             return Vector3.forward;
         } else if (previousDirection == Vector3.forward) {
@@ -45,10 +49,10 @@ public class WorldGenerator : MonoBehaviour {
         }
     }
 
-    private Vector3 getRandomDirection(Vector3 previousDirection) {
+    private Vector3 GetRandomDirection(Vector3 previousDirection) {
         var newDirection = directions2d[Random.Range(0, directions2d.Length)];
         while (true) {
-            if (newDirection != getBackwardsDirectionFromPrevious(previousDirection)) {
+            if (newDirection != GetBackwardsDirectionFromPrevious(previousDirection)) {
                 break;
             }
             newDirection = directions2d[Random.Range(0, directions2d.Length)];
