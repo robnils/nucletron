@@ -42,7 +42,7 @@ public class Meteor : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.name == "Player") {
+        if (collision.gameObject.tag == "Player") {
             Debug.Log("Collided");
         }
 
