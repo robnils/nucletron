@@ -12,12 +12,14 @@ public class WorldGenerator : MonoBehaviour {
 
     private List<Transform> platforms;
 
+    private int level = 1;
+
     // Platform path
     private const float DISTANCE_BETWEEN_PLATFORMS_MIN = 1.0f;
     private const float DISTANCE_BETWEEN_PLATFORMS_MAX = 2.5f;
     private const int PATH_LENGTH_MIN = 3;
     private const int PATH_LENGTH_MAX = 6; 
-    private const int PATH_HEIGHT_MIN = -1;
+    private const int PATH_HEIGHT_MIN = 1;
     private const int PATH_HEIGHT_MAX = 2;
 
     // Stairs
@@ -47,21 +49,34 @@ public class WorldGenerator : MonoBehaviour {
             return -1;
         }
     }
-    private Transform BuildWorld() {
+
+    public void ClearWorld() {
+        Debug.Log("Platforms: " + platforms);
+        foreach (var t in platforms) {
+            Debug.Log("Deleting: " + t);
+            Destroy(t.gameObject); 
+        }
+    }
+
+    public void NextLevel() {
+        ClearWorld();
+        level++;
+        BuildWorld();
+    }
+
+    public Transform BuildWorld() {
         // TODO prevent collisions by forcing new direction generation if it the platform collides
         var main = CreatePlatform(Vector3.zero, this.platform);
 
         //var startingPlatform = BuildStairs(main.transform, 1, 7, GetRandomPlusMinus());
         var startingDirection = Vector3.forward;
-
-        int level = 0;
         var platform = main;
         for (int idx = 0; idx < level; idx++) {
             var pathLength = Random.Range(PATH_LENGTH_MIN, PATH_LENGTH_MAX + 1);
             platform = BuildPath(platform, startingDirection, pathLength);
 
             var stairLength = Random.Range(NUMBER_OF_STEPS_MIN, NUMBER_OF_STEPS_MAX + 1);
-            platform = BuildStairs(platform, stairLength, DISTANCE_BETWEEN_STEPS, GetRandomPlusMinus());
+            platform = BuildStairs(platform, stairLength, DISTANCE_BETWEEN_STEPS, 1);
 
             /*
             pathLength = Random.Range(PATH_LENGTH_MIN, PATH_LENGTH_MAX + 1); ;
@@ -169,6 +184,7 @@ public class WorldGenerator : MonoBehaviour {
     private Transform CreateFinish(Transform position) {
         var finalPlatform = BuildInDirection(position, Vector3.forward, this.finishPlatform);
         finalPlatform.Rotate(0, 90, 0);
+        platforms.Add(finalPlatform);
 
         /*
         var finalPosition = finalPlatform.localPosition;

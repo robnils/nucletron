@@ -991,7 +991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c87e66585618b5743810e06441d0f3ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallDeathHeight: -30
+  fallDeathHeight: -20
   ground: {fileID: 310703846}
 --- !u!1 &1753107176
 GameObject:

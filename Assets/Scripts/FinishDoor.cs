@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class FinishDoor : MonoBehaviour {
 
-    public WorldGenerator worldGenerator;
 	// Use this for initialization
 	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
@@ -19,6 +18,11 @@ public class FinishDoor : MonoBehaviour {
         if (other.gameObject.tag == "Player") {
             Debug.Log("Collidedtag");
             other.gameObject.transform.localPosition = Vector3.zero;
+
+            GameObject go = GameObject.Find("WorldGenerator");
+            var gameobj = (WorldGenerator)go.GetComponent(typeof(WorldGenerator));
+            gameobj.NextLevel();
+
         }
     }
 
