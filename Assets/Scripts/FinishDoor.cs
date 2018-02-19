@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FinishDoor : MonoBehaviour {
 
+    public WorldGenerator worldGenerator;
 	// Use this for initialization
 	void Start () {
 		
