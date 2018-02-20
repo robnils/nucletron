@@ -10,9 +10,10 @@ public class WorldGenerator : MonoBehaviour {
     public Transform finishPlatform;
     public Transform finishPillar;
 
+    private List<Vector3> directions;
     private List<Transform> platforms;
 
-    private int level = 1;
+    private int currentLevel;
 
     // Platform path
     private const float DISTANCE_BETWEEN_PLATFORMS_MIN = 1.0f;
@@ -36,8 +37,9 @@ public class WorldGenerator : MonoBehaviour {
         Assert.IsNotNull(this.platform, "Platform prefab not defined");
         Assert.IsNotNull(this.finish, "Finish prefab not defined");
         Assert.IsNotNull(this.finishPlatform, "Finish platform prefab not defined");
-        platforms = new List<Transform>();
-        BuildWorld();
+        currentLevel = 5; 
+        Debug.Log("Building level: " + currentLevel);
+        BuildWorld(currentLevel);
     }
 
     private int GetRandomPlusMinus() {
@@ -60,18 +62,22 @@ public class WorldGenerator : MonoBehaviour {
 
     public void NextLevel() {
         ClearWorld();
-        level++;
-        BuildWorld();
+        currentLevel++;
+        BuildWorld(currentLevel);
     }
 
-    public Transform BuildWorld() {
+    public Transform BuildWorld(int level) { 
+        platforms = new List<Transform>();
+        directions = new List<Vector3>();
+
         // TODO prevent collisions by forcing new direction generation if it the platform collides
         var main = CreatePlatform(Vector3.zero, this.platform);
 
         //var startingPlatform = BuildStairs(main.transform, 1, 7, GetRandomPlusMinus());
         var startingDirection = Vector3.forward;
         var platform = main;
-        for (int idx = 0; idx < level; idx++) {
+        for (int idx = 0; idx < level; idx++)
+        {
             var pathLength = Random.Range(PATH_LENGTH_MIN, PATH_LENGTH_MAX + 1);
             platform = BuildPath(platform, startingDirection, pathLength);
 
@@ -85,22 +91,63 @@ public class WorldGenerator : MonoBehaviour {
             stairLength = Random.Range(NUMBER_OF_STEPS_MIN, NUMBER_OF_STEPS_MAX + 1);
             platform = BuildStairs(platform, stairLength, DISTANCE_BETWEEN_STEPS, GetRandomPlusMinus());
             */
-            
+
         }
         var finish = CreateFinish(platform.transform);
         return finish;
     }
 
+
+
+    public Transform BuildWorld() {
+        return BuildWorld(0);
+    }
+
+    private Vector3 GetNextDirection(Vector3 currentDirection) {
+        Vector3 newDirection;
+        if (directions.Count < 3) {
+            Debug.Log("No loop yet, directions.Count: " + directions.Count);
+            newDirection = GetRandomDirection(currentDirection);            
+            directions.Add(newDirection);
+            return newDirection;
+        }
+
+        // If any one of the directions are different, we donn't have a loop
+        var firstDirection = directions[0];
+        for (int idx = 1; idx < directions.Count; idx++) {
+            if (directions[idx] != firstDirection) {
+                Debug.Log("Verge of loop but avoided, directions.Count: " + directions.Count);
+                directions.Clear();
+                newDirection = GetRandomDirection(currentDirection);            
+                directions.Add(newDirection);
+                return newDirection;
+            }
+        }
+
+        // All directions are the same, so we need to make sure the next direction
+        // is differennt to prevent a loop
+        Debug.Log("Loop reached at directions.Count: " + directions.Count);
+        do {
+            newDirection = GetRandomDirection(currentDirection);            
+        } while (newDirection != firstDirection);
+        directions.Clear();
+        directions.Add(newDirection);
+        return newDirection;
+
+    }
+
     private Transform BuildPath(Transform startPlatform, Vector3 startDirection, int depth) {
-        var current = startDirection;
+        var currentDirection = startDirection;
         var platform = startPlatform;
 
         for (int idx = 0; idx < depth; idx++) {
-            Debug.Log("Building: " + current);
+            Debug.Log("Building: " + currentDirection);
             var height = Random.Range(PATH_HEIGHT_MIN, PATH_HEIGHT_MAX);
-            var newPlatform = BuildInDirection(platform, current, this.platform, height, 2.0f);
-            var newDirection = GetRandomDirection(current);            
-            current = newDirection;
+            var newPlatform = BuildInDirection(platform, currentDirection, this.platform, height, 2.0f);
+
+            //var newDirection = GetRandomDirection(currentDirection);            
+            var newDirection = GetNextDirection(currentDirection);
+            currentDirection = newDirection;
             platform = newPlatform; 
         }
         return platform;
