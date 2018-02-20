@@ -38,7 +38,7 @@ public class WorldGenerator : MonoBehaviour {
         Assert.IsNotNull(this.platform, "Platform prefab not defined");
         Assert.IsNotNull(this.finish, "Finish prefab not defined");
         Assert.IsNotNull(this.finishPlatform, "Finish platform prefab not defined");
-        currentLevel = startingLevel; 
+        currentLevel = startingLevelx; 
         Debug.Log("Building level: " + currentLevel);
         BuildWorld(currentLevel);
     }
