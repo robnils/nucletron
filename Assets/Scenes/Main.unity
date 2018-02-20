@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.5015656, g: 0.27016002, b: 0.2100066, a: 1}
+  m_IndirectSpecularColor: {r: 0.45875072, g: 0.25238732, b: 0.20406562, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -498,6 +498,7 @@ MonoBehaviour:
   spawnDistance: 100
   meteors:
   - {fileID: 114559188469666780, guid: 7b6d583c7248e7142a6ae47efa30ab49, type: 2}
+  player: {fileID: 5006449}
 --- !u!4 &510094277
 Transform:
   m_ObjectHideFlags: 0
@@ -710,10 +711,10 @@ Canvas:
   m_GameObject: {fileID: 1564491998}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_RenderMode: 1
+  m_Camera: {fileID: 486756987}
+  m_PlaneDistance: 3
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -730,7 +731,7 @@ RectTransform:
   m_GameObject: {fileID: 1564491998}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 845372626}
   m_Father: {fileID: 0}
@@ -738,9 +739,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 440.5, y: 259}
-  m_SizeDelta: {x: 881, y: 518}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!1 &1609787761
 GameObject:
   m_ObjectHideFlags: 0
@@ -1026,6 +1027,7 @@ MonoBehaviour:
     type: 2}
   finishPillar: {fileID: 4432863991471694, guid: 9c902d823f119f34aafcdeef244f8a70,
     type: 2}
+  startingLevel: 1
 --- !u!4 &1753107178
 Transform:
   m_ObjectHideFlags: 0

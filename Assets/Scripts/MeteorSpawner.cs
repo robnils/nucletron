@@ -9,6 +9,8 @@ public class MeteorSpawner : MonoBehaviour
 
     public Meteor[] meteors;
 
+    public Transform player;
+
     float timeSinceLastSpawn;
 
     void FixedUpdate()
@@ -17,14 +19,17 @@ public class MeteorSpawner : MonoBehaviour
         if (timeSinceLastSpawn >= timeBetweenSpawns)
         {
             timeSinceLastSpawn -= timeBetweenSpawns;
-            SpawnNucleon();
+            SpawnMeteor();
         }
     }
 
-    void SpawnNucleon()
+    void SpawnMeteor()
     {
         Meteor prefab = meteors[Random.Range(0, meteors.Length)];
         Meteor spawn = Instantiate<Meteor>(prefab);
-        spawn.transform.localPosition = Random.onUnitSphere * spawnDistance;
+        //var offset = new Vector3(player.localPosition.x, 0, 0);
+        var spawnPosition = player.localPosition + Random.onUnitSphere * spawnDistance;
+        spawn.transform.localPosition = spawnPosition;
+        Debug.Log("Spawned meteor at: {}" + spawnPosition);
     }
 }

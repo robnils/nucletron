@@ -16,11 +16,20 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+        playerDeath();
+	}
+
+    void playerDeath() {
         if (player.transform.localPosition.y < ground.transform.localPosition.y + fallDeathHeight)
         {
+            GameObject go = GameObject.Find("WorldGenerator");
+            var worldGeneratorScript = (WorldGenerator)go.GetComponent(typeof(WorldGenerator));
+            worldGeneratorScript.RegenerateCurrentLevel();
+
             player.transform.localPosition = Vector3.zero;
+
         }
-	}
+    }
 }
 
 

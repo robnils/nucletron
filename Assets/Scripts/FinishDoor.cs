@@ -20,8 +20,8 @@ public class FinishDoor : MonoBehaviour {
             other.gameObject.transform.localPosition = Vector3.zero;
 
             GameObject go = GameObject.Find("WorldGenerator");
-            var gameobj = (WorldGenerator)go.GetComponent(typeof(WorldGenerator));
-            gameobj.NextLevel();
+            var worldGeneratorScript = (WorldGenerator)go.GetComponent(typeof(WorldGenerator));
+            worldGeneratorScript.NextLevel();
 
         }
     }

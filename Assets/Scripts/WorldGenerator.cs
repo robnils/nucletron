@@ -13,6 +13,7 @@ public class WorldGenerator : MonoBehaviour {
     private List<Vector3> directions;
     private List<Transform> platforms;
 
+    public int startingLevel;
     private int currentLevel;
 
     // Platform path
@@ -37,7 +38,7 @@ public class WorldGenerator : MonoBehaviour {
         Assert.IsNotNull(this.platform, "Platform prefab not defined");
         Assert.IsNotNull(this.finish, "Finish prefab not defined");
         Assert.IsNotNull(this.finishPlatform, "Finish platform prefab not defined");
-        currentLevel = 5; 
+        currentLevel = startingLevel; 
         Debug.Log("Building level: " + currentLevel);
         BuildWorld(currentLevel);
     }
@@ -63,6 +64,12 @@ public class WorldGenerator : MonoBehaviour {
     public void NextLevel() {
         ClearWorld();
         currentLevel++;
+        BuildWorld(currentLevel);
+    }
+
+    public void RegenerateCurrentLevel()
+    {
+        ClearWorld();
         BuildWorld(currentLevel);
     }
 
