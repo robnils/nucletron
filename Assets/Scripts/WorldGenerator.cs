@@ -36,12 +36,21 @@ public class WorldGenerator : MonoBehaviour {
 
     private Vector3[] directions2d = { Vector3.left, Vector3.right, Vector3.forward, Vector3.back };
 
+    private Fire fireScript;
+
+    private Fire GetFire() {
+        GameObject go = GameObject.Find("Fire");
+        return (Fire)go.GetComponent(typeof(Fire));
+    }
+
     void Start () {
         Assert.IsNotNull(this.platform, "Platform prefab not defined");
         Assert.IsNotNull(this.finish, "Finish prefab not defined");
         Assert.IsNotNull(this.finish, "Finish platform prefab not defined");
         currentLevel = startingLevel; 
         Debug.Log("Building level: " + currentLevel);
+
+        fireScript = GetFire();
         BuildWorld(currentLevel);
     }
 
