@@ -17,18 +17,25 @@ public class SoundController : MonoBehaviour {
 	}
 
 	public void playBackgroundMusic() {
+		source.loop = true;
 		source.PlayOneShot(backgroundMusic);
 	}
 
 	public void playFallDeath() {
+		source.loop = false;
 		source.PlayOneShot(fallDeath);
+		source.loop = true;
 	}
 
 	public void playDeath() {
+		source.loop = false;
 		source.PlayOneShot(death);
+		source.loop = true;
 	}
 
 	public void playHurt() {
+		source.loop = false;
 		source.PlayOneShot(hurt);
+		source.loop = true;
 	}
 }

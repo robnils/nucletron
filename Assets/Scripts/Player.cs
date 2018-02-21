@@ -19,17 +19,20 @@ public class Player : MonoBehaviour {
 	void Start () {
         player = gameObject;
         health = maxHealth; 
-        updateHealthText();
+		updateHealthText ();
 
-		soundController = new SoundController ();
+		soundController = getSoundController ();
 
-		GameObject go = GameObject.Find("MusicHandler");
-		soundController = (SoundController)go.GetComponent(typeof(SoundController));
 		alive = true;
 		startingPosition = new Vector3 (0, 0, 0); 
 		fallingHeight = (int)(startingPosition.y - 10.0f);
 	}
-	
+
+	private SoundController getSoundController() {
+		var go = GameObject.Find("MusicHandler");
+		return (SoundController)go.GetComponent(typeof(SoundController));
+	}
+
 	// Update is called once per frame
 	void FixedUpdate () {
         playerDeath();
