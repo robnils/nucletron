@@ -7,8 +7,6 @@ public class WorldGenerator : MonoBehaviour {
 
     public Transform platform;
     public Transform finish;
-    public Transform finishPlatform;
-    public Transform finishPillar;
 
     private List<Vector3> directions;
     private List<Transform> platforms;
@@ -37,8 +35,8 @@ public class WorldGenerator : MonoBehaviour {
     void Start () {
         Assert.IsNotNull(this.platform, "Platform prefab not defined");
         Assert.IsNotNull(this.finish, "Finish prefab not defined");
-        Assert.IsNotNull(this.finishPlatform, "Finish platform prefab not defined");
-        currentLevel = startingLevelx; 
+        Assert.IsNotNull(this.finish, "Finish platform prefab not defined");
+        currentLevel = startingLevel; 
         Debug.Log("Building level: " + currentLevel);
         BuildWorld(currentLevel);
     }
@@ -236,7 +234,7 @@ public class WorldGenerator : MonoBehaviour {
     }
 
     private Transform CreateFinish(Transform position) {
-        var finalPlatform = BuildInDirection(position, Vector3.forward, this.finishPlatform);
+        var finalPlatform = BuildInDirection(position, Vector3.forward, this.finish);
         finalPlatform.Rotate(0, 90, 0);
         platforms.Add(finalPlatform);
 

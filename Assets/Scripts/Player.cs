@@ -16,7 +16,7 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        playerDeath();
+       playerDeath();
 	}
 
     void playerDeath() {
