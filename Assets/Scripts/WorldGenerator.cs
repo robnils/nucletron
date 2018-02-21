@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 public class WorldGenerator : MonoBehaviour {
 
@@ -72,6 +73,11 @@ public class WorldGenerator : MonoBehaviour {
     }
 
     public Transform BuildWorld(int level) { 
+
+        GameObject levelObject = GameObject.Find("Level");
+        var txt = levelObject.GetComponent<Text>();
+        txt.text = "Level : " + currentLevel;
+
         platforms = new List<Transform>();
         directions = new List<Vector3>();
 
