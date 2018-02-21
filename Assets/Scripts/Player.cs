@@ -57,13 +57,14 @@ public class Player : MonoBehaviour {
     }
 
     private void UpdateHealth(int health) {
+        Debug.Log("Health: " + health);
         this.health = health;
         UpdateHealthText();
     }
     private void UpdateHealthText() {
         GameObject objectText = GameObject.Find("Health");
         var txt = objectText.GetComponent<Text>();
-        txt.text = "Health : " + health;
+        txt.text = "Health : " + this.health;
     }
 
     public void ResetWorld() {
@@ -100,9 +101,15 @@ public class Player : MonoBehaviour {
 		}
     }
 
+    public void TakeDamage() {
+        Debug.Log("it hurts!");
+        soundController.playHurt();
+        UpdateHealth(--health);
+    }
+
     void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.name == "Neutron_fire" || collision.gameObject.name == "WallOfFire") {
-            UpdateHealth(health--);
+            UpdateHealth(--health);
         }
     }
 }
