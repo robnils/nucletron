@@ -9,9 +9,10 @@ public class SoundController : MonoBehaviour {
 	public AudioClip hurt;
 	public AudioClip death;
 	public AudioClip fallDeath;
+    public AudioClip levelComplete;
 
-	// Use this for initialization
-	void Awake () {
+    // Use this for initialization
+    void Awake () {
 		source = GetComponent<AudioSource> ();
 		playBackgroundMusic ();
 	}
@@ -27,7 +28,13 @@ public class SoundController : MonoBehaviour {
 		source.loop = true;
 	}
 
-	public void playDeath() {
+    public void playLevelComplete() {
+        source.loop = false;
+        source.PlayOneShot(levelComplete);
+        source.loop = true;
+    }
+
+    public void playDeath() {
 		source.loop = false;
 		source.PlayOneShot(death);
 		source.loop = true;

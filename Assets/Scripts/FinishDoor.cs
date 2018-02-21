@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class FinishDoor : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    private SoundController soundController;
+    private WorldGenerator worldGenerator;
+    private Player player;
 
+    void Start () {
+        soundController = GetSoundController();
+        worldGenerator = GetWorldGenerator();
+        player = GetPlayer();
+    }
+
+    private WorldGenerator GetWorldGenerator() {
+        GameObject go = GameObject.Find("WorldGenerator");
+        return (WorldGenerator)go.GetComponent(typeof(WorldGenerator));
     }
 
     // Update is called once per frame
@@ -14,16 +24,28 @@ public class FinishDoor : MonoBehaviour {
 		
 	}
 
+    private SoundController GetSoundController() {
+        var go = GameObject.Find("MusicHandler");
+        return (SoundController)go.GetComponent(typeof(SoundController));
+    }
+
+    private Player GetPlayer() {
+        var go = GameObject.FindGameObjectWithTag("Player");
+        return (Player)go.GetComponent(typeof(Player));
+    }
+
     void OnTriggerEnter(Collider other) {
         Debug.Log("finish");
         if (other.gameObject.tag == "Player") {
             Debug.Log("Hit finish");
-            other.gameObject.transform.localPosition = Vector3.zero;
-
+            player.MovePlayerToStart();
+            soundController.playLevelComplete();
+            worldGenerator.NextLevel();
+            /*
             GameObject go = GameObject.Find("WorldGenerator");
             var worldGeneratorScript = (WorldGenerator)go.GetComponent(typeof(WorldGenerator));
             worldGeneratorScript.NextLevel();
-
+            */
         }
     }
 

@@ -9,7 +9,9 @@ public class Player : MonoBehaviour {
     private GameObject player;
 
 	private SoundController soundController;
-	private Vector3 startingPosition; // FIXME refactor
+    private WorldGenerator worldGenerator;
+
+    private Vector3 startingPosition; // FIXME refactor
 	private int fallingHeight;
 
     private int health; 
@@ -19,66 +21,70 @@ public class Player : MonoBehaviour {
 	void Start () {
         player = gameObject;
         health = maxHealth; 
-		updateHealthText ();
+		UpdateHealthText ();
 
-		soundController = getSoundController ();
+		soundController = GetSoundController();
+        worldGenerator = GetWorldGenerator();
 
 		alive = true;
 		startingPosition = new Vector3 (0, 0, 0); 
-		fallingHeight = (int)(startingPosition.y - 10.0f);
+		fallingHeight = (int)(startingPosition.y - 5.0f);
 	}
 
-	private SoundController getSoundController() {
+	private SoundController GetSoundController() {
 		var go = GameObject.Find("MusicHandler");
 		return (SoundController)go.GetComponent(typeof(SoundController));
 	}
 
-	// Update is called once per frame
-	void FixedUpdate () {
-        playerDeath();
+    private WorldGenerator GetWorldGenerator() {
+        GameObject go = GameObject.Find("WorldGenerator");
+        return (WorldGenerator)go.GetComponent(typeof(WorldGenerator));
+    }
+
+    // Update is called once per frame
+    void FixedUpdate () {
+        PlayerDeath();
 	}
 
-    public void resetPlayer() {
-        updateHealth(maxHealth);
-		movePlayerToStart();
+    public void ResetPlayer() {
+        UpdateHealth(maxHealth);
+		MovePlayerToStart();
 		alive = true;
     }
 
-    private void movePlayerToStart() {
+    public void MovePlayerToStart() {
         player.transform.localPosition = Vector3.zero;
     }
 
-    private void updateHealth(int health) {
+    private void UpdateHealth(int health) {
         this.health = health;
-        updateHealthText();
+        UpdateHealthText();
     }
-    private void updateHealthText() {
+    private void UpdateHealthText() {
         GameObject objectText = GameObject.Find("Health");
         var txt = objectText.GetComponent<Text>();
         txt.text = "Health : " + health;
     }
 
-    private void resetWorld() {
-        GameObject go = GameObject.Find("WorldGenerator");
-        var worldGeneratorScript = (WorldGenerator)go.GetComponent(typeof(WorldGenerator));
-        worldGeneratorScript.RegenerateCurrentLevel();
+    public void ResetWorld() {
+        worldGenerator.RegenerateCurrentLevel();
     }
 
-	private bool isFalling(Vector3 pos) {
+	private bool IsFalling(Vector3 pos) {
 		return pos.y < fallingHeight;
 	}
 
-	private bool fallDepthDeath(Vector3 pos) {
+	private bool FallDepthDeath(Vector3 pos) {
 		return pos.y < fallingHeight + fallDeathHeight;
 	}
 
-    void playerDeath() {
+    void PlayerDeath() {
         if (health <= 0) {
 			Debug.Log ("Health depleted, dead");
-            resetPlayer();
+            ResetPlayer();
         }
 
-		if (isFalling (player.transform.localPosition)) {
+		if (IsFalling (player.transform.localPosition)) {
 			Debug.Log ("Falling");
 			if (alive) {
 				Debug.Log ("playing fall sound effect");
@@ -87,16 +93,16 @@ public class Player : MonoBehaviour {
 			}
 
 
-			if (fallDepthDeath(player.transform.localPosition)) {
+			if (FallDepthDeath(player.transform.localPosition)) {
 				Debug.Log ("Fell to gruesome death");
-				resetPlayer();
+				ResetPlayer();
 			}
 		}
     }
 
     void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.name == "Neutron_fire" || collision.gameObject.name == "WallOfFire") {
-            updateHealth(health--);
+            UpdateHealth(health--);
         }
     }
 }
