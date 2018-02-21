@@ -27,6 +27,10 @@ public class Fire : MonoBehaviour {
         }
     }
 
+    public void SetTimeToLive(float time) {
+        timeToLive = time;
+    }
+
     private Player GetPlayer() {
         var go = GameObject.FindGameObjectWithTag("Player");
         return (Player)go.GetComponent(typeof(Player));

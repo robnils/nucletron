@@ -517,6 +517,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &649226500
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4708414103511936, guid: 2912cebf3f3d46f4ab10a57b8695a4e7, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708414103511936, guid: 2912cebf3f3d46f4ab10a57b8695a4e7, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708414103511936, guid: 2912cebf3f3d46f4ab10a57b8695a4e7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708414103511936, guid: 2912cebf3f3d46f4ab10a57b8695a4e7, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708414103511936, guid: 2912cebf3f3d46f4ab10a57b8695a4e7, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708414103511936, guid: 2912cebf3f3d46f4ab10a57b8695a4e7, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708414103511936, guid: 2912cebf3f3d46f4ab10a57b8695a4e7, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708414103511936, guid: 2912cebf3f3d46f4ab10a57b8695a4e7, type: 2}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 2912cebf3f3d46f4ab10a57b8695a4e7, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &714174073
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,7 +998,8 @@ MonoBehaviour:
   platform: {fileID: 4802063026738324, guid: 9bea320d2a917b840abcf14951b8afdd, type: 2}
   finish: {fileID: 4563549558595550, guid: daa7761a5d2c3414da1d2db411873085, type: 2}
   fire: {fileID: 4708414103511936, guid: 2912cebf3f3d46f4ab10a57b8695a4e7, type: 2}
-  startingLevel: 0
+  startingLevel: 3
+  spawnFireProbability: 0.9
 --- !u!4 &1753107178
 Transform:
   m_ObjectHideFlags: 0

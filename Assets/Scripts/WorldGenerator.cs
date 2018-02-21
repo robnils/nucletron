@@ -16,6 +16,8 @@ public class WorldGenerator : MonoBehaviour {
     public int startingLevel;
     private int currentLevel;
 
+    public float spawnFireProbability;
+
     // Platform path
     private const float DISTANCE_BETWEEN_PLATFORMS_MIN = 1.0f;
     private const float DISTANCE_BETWEEN_PLATFORMS_MAX = 2.5f;
@@ -65,6 +67,12 @@ public class WorldGenerator : MonoBehaviour {
         var firePrefab = Instantiate(fire, position, Quaternion.identity);
     }
 
+    private void SpawnFire(Vector3 position, float probability) {
+        if (Random.Range(0.0f, 1.0f) <= probability) {
+            SpawnFire(position);
+        }
+    }
+
     public void NextLevel() {
         ClearWorld();
         currentLevel++;
@@ -77,7 +85,7 @@ public class WorldGenerator : MonoBehaviour {
         BuildWorld(currentLevel);
     }
 
-    private void updateLevelText() {
+    private void UpdateLevelText() {
         GameObject levelObject = GameObject.Find("Level");
         var txt = levelObject.GetComponent<Text>();
         txt.text = "Level : " + currentLevel;
@@ -85,7 +93,7 @@ public class WorldGenerator : MonoBehaviour {
 
     public Transform BuildWorld(int level) {
 
-        updateLevelText();
+        UpdateLevelText();
 
         platforms = new List<Transform>();
         directions = new List<Vector3>();
@@ -164,6 +172,10 @@ public class WorldGenerator : MonoBehaviour {
             Debug.Log("Building: " + currentDirection);
             var height = Random.Range(PATH_HEIGHT_MIN, PATH_HEIGHT_MAX);
             var newPlatform = BuildInDirection(platform, currentDirection, this.platform, height, 2.0f);
+
+            if (platforms.Count > 3) {
+                SpawnFire(newPlatform.transform.localPosition, spawnFireProbability);
+            }
 
             //var newDirection = GetRandomDirection(currentDirection);            
             var newDirection = GetNextDirection(currentDirection);
