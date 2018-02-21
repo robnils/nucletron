@@ -7,6 +7,9 @@ public class Meteor : MonoBehaviour {
     private GameObject player;
     public Transform explosionPrefab;
 
+    public int selfDestructHeight;
+    private int selfDestructVariation;
+
     private float timeToLive;
     private float timSinceSpawn;
 
@@ -16,6 +19,9 @@ public class Meteor : MonoBehaviour {
         body = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player");
         timeToLive = Random.Range(5.0f, 15.0f);
+
+        selfDestructVariation = (int)(selfDestructHeight * 0.1f);
+
         if (player == null) {
             throw new System.Exception("player not found, programming error");
         }
@@ -23,11 +29,12 @@ public class Meteor : MonoBehaviour {
 
     void FixedUpdate() {
         // body.AddForce(player.transform.localPosition * -attractionForce);
-        /*
-        if (transform.localPosition.y < 10) {
-            Destroy(this);
+
+        int selfDestructOffsetRandom = selfDestructHeight + Random.Range(selfDestructHeight - selfDestructVariation, selfDestructHeight + selfDestructVariation);
+        if (transform.localPosition.y < selfDestructOffsetRandom) {
+            DestroyMeteor(transform.localPosition, transform.localRotation);
         }
-        */
+
         timSinceSpawn += Time.deltaTime;
         if (timSinceSpawn >= timeToLive) {
             timSinceSpawn -= timeToLive;
@@ -43,7 +50,7 @@ public class Meteor : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "Player") {
-            Debug.Log("Collided");
+            Debug.Log("Collided with player");
         }
 
         ContactPoint contact = collision.contacts[0];
