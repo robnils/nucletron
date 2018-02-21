@@ -8,18 +8,24 @@ public class Fire : MonoBehaviour {
     private GameObject boundary;
     private Player player;
 
+    private float timeToLive;
+    private float timeAlive;
 
     // Use this for initialization
     void Awake () {
 		soundController = getSoundController ();
         boundary = GameObject.Find("Boundary");
         player = GetPlayer(); // TODO move all instances to gameController
+        timeToLive = Random.Range(2.0f, 5.0f);
     }
 	
 	// Update is called once per frame
-	void Update () {
-		
-	}
+	void FixedUpdate () {
+        timeAlive += Time.deltaTime;
+        if (timeAlive >= timeToLive) {
+            Destroy(transform.parent.gameObject);
+        }
+    }
 
     private Player GetPlayer() {
         var go = GameObject.FindGameObjectWithTag("Player");
@@ -34,7 +40,6 @@ public class Fire : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 		Debug.Log("FIIIIIIRE");
 		if (other.gameObject.tag == "Player") {
-            Debug.Log("it hurts!");
 
 
             player.TakeDamage();

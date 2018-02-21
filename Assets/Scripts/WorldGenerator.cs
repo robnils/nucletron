@@ -8,6 +8,7 @@ public class WorldGenerator : MonoBehaviour {
 
     public Transform platform;
     public Transform finish;
+    public Transform fire;
 
     private List<Vector3> directions;
     private List<Transform> platforms;
@@ -58,6 +59,10 @@ public class WorldGenerator : MonoBehaviour {
             Debug.Log("Deleting: " + t);
             Destroy(t.gameObject); 
         }
+    }
+
+    private void SpawnFire(Vector3 position) {
+        var firePrefab = Instantiate(fire, position, Quaternion.identity);
     }
 
     public void NextLevel() {
