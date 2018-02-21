@@ -27,7 +27,7 @@ public class Player : MonoBehaviour {
 		soundController = (SoundController)go.GetComponent(typeof(SoundController));
 		alive = true;
 		startingPosition = new Vector3 (0, 0, 0); 
-		fallingHeight = startingPosition.y - 10;
+		fallingHeight = (int)(startingPosition.y - 10.0f);
 	}
 	
 	// Update is called once per frame

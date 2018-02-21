@@ -992,6 +992,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   source: {fileID: 82902536828461100, guid: c8032b26dd968494d96234dc960c22c0, type: 2}
+  backgroundMusic: {fileID: 8300000, guid: b83cd7c8bcf564893872444062979092, type: 3}
   hurt: {fileID: 8300000, guid: c30ba35b5774c1d4eadbe47b87141b8a, type: 3}
   death: {fileID: 8300000, guid: b3ae19d3ab92b904c9071638c9b65e6b, type: 3}
   fallDeath: {fileID: 8300000, guid: 742c3c6e7f3bff44a939f9e3492bd8d2, type: 3}
@@ -1057,8 +1058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c87e66585618b5743810e06441d0f3ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallDeathHeight: -20
-  ground: {fileID: 310703846}
+  fallDeathHeight: 0
 --- !u!1 &1987479883
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ using UnityEngine;
 public class SoundController : MonoBehaviour {
 	
 	public AudioSource source;
+	public AudioClip backgroundMusic;
 	public AudioClip hurt;
 	public AudioClip death;
 	public AudioClip fallDeath;
@@ -12,6 +13,11 @@ public class SoundController : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		source = GetComponent<AudioSource> ();
+		playBackgroundMusic ();
+	}
+
+	public void playBackgroundMusic() {
+		source.PlayOneShot(backgroundMusic);
 	}
 
 	public void playFallDeath() {
