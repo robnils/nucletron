@@ -6,16 +6,28 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour {
 
     public int fallDeathHeight;
-    public GameObject ground;
     private GameObject player;
+
+	private SoundController soundController;
+	private Vector3 startingPosition; // FIXME refactor
+	private int fallingHeight;
 
     private int health; 
     private const int maxHealth = 3;
+	private bool alive;
 
 	void Start () {
         player = gameObject;
         health = maxHealth; 
         updateHealthText();
+
+		soundController = new SoundController ();
+
+		GameObject go = GameObject.Find("MusicHandler");
+		soundController = (SoundController)go.GetComponent(typeof(SoundController));
+		alive = true;
+		startingPosition = new Vector3 (0, 0, 0); 
+		fallingHeight = startingPosition.y - 10;
 	}
 	
 	// Update is called once per frame
@@ -25,9 +37,11 @@ public class Player : MonoBehaviour {
 
     public void resetPlayer() {
         updateHealth(maxHealth);
+		movePlayerToStart();
+		alive = true;
     }
 
-    private void movePlayerToStar() {
+    private void movePlayerToStart() {
         player.transform.localPosition = Vector3.zero;
     }
 
@@ -47,14 +61,34 @@ public class Player : MonoBehaviour {
         worldGeneratorScript.RegenerateCurrentLevel();
     }
 
+	private bool isFalling(Vector3 pos) {
+		return pos.y < fallingHeight;
+	}
+
+	private bool fallDepthDeath(Vector3 pos) {
+		return pos.y < fallingHeight + fallDeathHeight;
+	}
+
     void playerDeath() {
         if (health <= 0) {
+			Debug.Log ("Health depleted, dead");
             resetPlayer();
         }
 
-        if (player.transform.localPosition.y < ground.transform.localPosition.y + fallDeathHeight) {
-            resetPlayer();
-        }
+		if (isFalling (player.transform.localPosition)) {
+			Debug.Log ("Falling");
+			if (alive) {
+				Debug.Log ("playing fall sound effect");
+				soundController.playFallDeath();
+				alive = false;
+			}
+
+
+			if (fallDepthDeath(player.transform.localPosition)) {
+				Debug.Log ("Fell to gruesome death");
+				resetPlayer();
+			}
+		}
     }
 
     void OnCollisionEnter(Collision collision) {

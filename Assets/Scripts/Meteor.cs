@@ -32,7 +32,8 @@ public class Meteor : MonoBehaviour {
 
         int selfDestructOffsetRandom = selfDestructHeight + Random.Range(selfDestructHeight - selfDestructVariation, selfDestructHeight + selfDestructVariation);
         if (transform.localPosition.y < selfDestructOffsetRandom) {
-            DestroyMeteor(transform.localPosition, transform.localRotation);
+            //DestroyMeteor(transform.localPosition, transform.localRotation);
+			Destroy(gameObject);
         }
 
         timSinceSpawn += Time.deltaTime;
