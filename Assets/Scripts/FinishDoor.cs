@@ -15,8 +15,9 @@ public class FinishDoor : MonoBehaviour {
 	}
 
     void OnTriggerEnter(Collider other) {
+        Debug.Log("finish");
         if (other.gameObject.tag == "Player") {
-            Debug.Log("Collidedtag");
+            Debug.Log("Hit finish");
             other.gameObject.transform.localPosition = Vector3.zero;
 
             GameObject go = GameObject.Find("WorldGenerator");
