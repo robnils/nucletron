@@ -72,11 +72,15 @@ public class WorldGenerator : MonoBehaviour {
         BuildWorld(currentLevel);
     }
 
-    public Transform BuildWorld(int level) { 
-
+    private void updateLevelText() {
         GameObject levelObject = GameObject.Find("Level");
         var txt = levelObject.GetComponent<Text>();
         txt.text = "Level : " + currentLevel;
+    }
+
+    public Transform BuildWorld(int level) {
+
+        updateLevelText();
 
         platforms = new List<Transform>();
         directions = new List<Vector3>();
