@@ -180,7 +180,7 @@ Transform:
   - {fileID: 4551596685508842}
   - {fileID: 4173134500903410}
   m_Father: {fileID: 4708414103511936}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4173134500903410
 Transform:
@@ -244,8 +244,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4152325515183370}
   - {fileID: 4934221886238494}
+  - {fileID: 4152325515183370}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -286,7 +286,7 @@ Transform:
   m_LocalScale: {x: 8, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 4708414103511936}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23704108028064866
 MeshRenderer:
@@ -520,10 +520,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AudioSource: {fileID: 82171136821701826}
   StartTime: 3
-  StopTime: 2
-  Duration: 0
-  ForceAmount: 0
-  ForceRadius: 0
+  StopTime: 5
+  Duration: 2
+  ForceAmount: 2
+  ForceRadius: 2
   IsProjectile: 0
   ManualParticleSystems: []
 --- !u!114 &114645157661878890
@@ -552,7 +552,7 @@ MonoBehaviour:
   IntensityModifier: 2
   IntensityMaxRange:
     Minimum: 0
-    Maximum: 8
+    Maximum: 15
 --- !u!198 &198108615301993820
 ParticleSystem:
   m_ObjectHideFlags: 1

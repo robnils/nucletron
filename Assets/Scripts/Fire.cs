@@ -16,7 +16,8 @@ public class Fire : MonoBehaviour {
 		soundController = getSoundController ();
         boundary = GameObject.Find("Boundary");
         player = GetPlayer(); // TODO move all instances to gameController
-        timeToLive = Random.Range(5.0f, 20.0f);
+        //timeToLive = Random.Range(5.0f, 5.0f);
+		timeToLive = 3.0f;
     }
 	
 	// Update is called once per frame
@@ -30,6 +31,14 @@ public class Fire : MonoBehaviour {
     public void SetTimeToLive(float time) {
         timeToLive = time;
     }
+
+	public void AddTimeToLive(float time) {
+		timeToLive += time;
+	}
+
+	public void AddTimeToLive(int time) {
+		AddTimeToLive((float)time);
+	}
 
     private Player GetPlayer() {
         var go = GameObject.FindGameObjectWithTag("Player");

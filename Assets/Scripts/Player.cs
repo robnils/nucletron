@@ -123,7 +123,6 @@ public class Player : MonoBehaviour {
 
 			invinsible = true;
 		}
-		Debug.Log ("Invinsible");
     }
 
     void OnCollisionEnter(Collision collision) {
