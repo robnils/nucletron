@@ -17,6 +17,9 @@ public class Player : MonoBehaviour {
     private int health; 
     private const int maxHealth = 3;
 	private bool alive;
+	private bool invinsible = false;
+	private const float invinsibilityTime = 1.0f;
+	private float invinsibilityClock;
 
 	void Start () {
         player = gameObject;
@@ -43,7 +46,8 @@ public class Player : MonoBehaviour {
 
     // Update is called once per frame
     void FixedUpdate () {
-        PlayerDeath();
+        CheckPlayerDeath();
+		CheckInvinsibility ();
 	}
 
     public void ResetPlayer() {
@@ -79,16 +83,16 @@ public class Player : MonoBehaviour {
 		return pos.y < fallingHeight + fallDeathHeight;
 	}
 
-    void PlayerDeath() {
+    void CheckPlayerDeath() {
         if (health <= 0) {
 			Debug.Log ("Health depleted, dead");
+			soundController.playDeath();
             ResetPlayer();
         }
 
 		if (IsFalling (player.transform.localPosition)) {
 			Debug.Log ("Falling");
 			if (alive) {
-				Debug.Log ("playing fall sound effect");
 				soundController.playFallDeath();
 				alive = false;
 			}
@@ -101,10 +105,25 @@ public class Player : MonoBehaviour {
 		}
     }
 
+	private void CheckInvinsibility() {
+		if (invinsible) {
+			invinsibilityClock += Time.deltaTime;
+			if (invinsibilityClock >= invinsibilityTime) {
+				invinsibilityClock -= invinsibilityTime;
+				invinsible = false;
+			}
+		}
+	}
+
     public void TakeDamage() {
-        Debug.Log("it hurts!");
-        soundController.playHurt();
-        UpdateHealth(--health);
+		if (!invinsible) {
+			Debug.Log("It hurts!");
+			soundController.playHurt();
+			UpdateHealth(--health);
+
+			invinsible = true;
+		}
+		Debug.Log ("Invinsible");
     }
 
     void OnCollisionEnter(Collision collision) {

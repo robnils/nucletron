@@ -16,7 +16,7 @@ public class Fire : MonoBehaviour {
 		soundController = getSoundController ();
         boundary = GameObject.Find("Boundary");
         player = GetPlayer(); // TODO move all instances to gameController
-        timeToLive = Random.Range(2.0f, 5.0f);
+        timeToLive = Random.Range(5.0f, 20.0f);
     }
 	
 	// Update is called once per frame
@@ -40,20 +40,26 @@ public class Fire : MonoBehaviour {
 		var go = GameObject.Find("MusicHandler");
 		return (SoundController)go.GetComponent(typeof(SoundController));
 	}
+
+	void TakeFireDamage(Collider other) {
+		player.TakeDamage();
+
+		// FIXME doesn't work yet
+		float explosionStrength = 10.0f;
+		var body = other.gameObject.GetComponent<Rigidbody>();
+		Vector3 forceVec = -body.velocity.normalized * explosionStrength;
+		body.AddForce(forceVec, ForceMode.Acceleration);
+	}
     
 	void OnTriggerEnter(Collider other) {
 		Debug.Log("FIIIIIIRE");
 		if (other.gameObject.tag == "Player") {
+			TakeFireDamage(other);
+		}
+	}
 
-
-            player.TakeDamage();
-
-            // FIXME doesn't work yet
-            float explosionStrength = 10.0f;
-            var body = other.gameObject.GetComponent<Rigidbody>();
-            Vector3 forceVec = -body.velocity.normalized * explosionStrength;
-            body.AddForce(forceVec, ForceMode.Acceleration);
-        }
+	void OnTriggerStay(Collider other) {
+		TakeFireDamage(other);
 	}
     
 
