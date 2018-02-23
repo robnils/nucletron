@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
-    public int fallDeathHeight;
+	private int fallDeathHeight;
     private GameObject player;
 
 	private SoundController soundController;
@@ -30,6 +30,7 @@ public class Player : MonoBehaviour {
         worldGenerator = GetWorldGenerator();
 
 		alive = true;
+		fallDeathHeight = -30;
 		startingPosition = new Vector3 (0, 0, 0); 
 		fallingHeight = (int)(startingPosition.y - 5.0f);
 	}

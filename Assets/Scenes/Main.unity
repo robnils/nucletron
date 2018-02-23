@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43647155, g: 0.23144487, b: 0.1902014, a: 1}
+  m_IndirectSpecularColor: {r: 0.45875072, g: 0.25238732, b: 0.20406562, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -113,6 +113,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!20 &59927092 stripped
+Camera:
+  m_PrefabParentObject: {fileID: 2000000, guid: 5e9e851c0e142814dac026a256ba2ac0,
+    type: 2}
+  m_PrefabInternal: {fileID: 2113425583}
 --- !u!1 &173877439
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,7 +144,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 173877439}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1077652055}
@@ -239,7 +244,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 1
   m_Direction: 1
-  m_Center: {x: 0, y: 5, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &230240383
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,9 +579,9 @@ Canvas:
   m_GameObject: {fileID: 740914936}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 59927092}
+  m_PlaneDistance: 10
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -626,7 +631,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c87e66585618b5743810e06441d0f3ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallDeathHeight: -30
 --- !u!1 &1167509534
 GameObject:
   m_ObjectHideFlags: 0
@@ -825,7 +829,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 52513d63a0523314185e02f282f3ec68, type: 3}
   - {fileID: 8300000, guid: 742c3c6e7f3bff44a939f9e3492bd8d2, type: 3}
   - {fileID: 8300000, guid: 38838f240acccb64686a57f897b19f6d, type: 3}
-  levelComplete: {fileID: 8300000, guid: 38838f240acccb64686a57f897b19f6d, type: 3}
+  levelComplete: {fileID: 8300000, guid: 5fa0a437238fc304a8b89ce75dadf206, type: 3}
 --- !u!1 &1753107176
 GameObject:
   m_ObjectHideFlags: 0
@@ -949,7 +953,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
       propertyPath: m_LocalPosition.z

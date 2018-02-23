@@ -34,13 +34,16 @@ public class WorldGenerator : MonoBehaviour {
     private const int PATH_HEIGHT_MAX = 2;
 	private Vector3 currentDirection;
 	private Vector3[] directions2d = { Vector3.left, Vector3.right, Vector3.forward, Vector3.back };
-	private Dictionary<Vector3, bool> vectorHorizontalMap = new Dictionary<Vector3, bool>
+
+	/*
+	private Dictionary<string, bool> vectorHorizontalMap = new Dictionary<Vector3, bool>
 	{
-		{ Vector3.left, true },
-		{ Vector3.right, true },
-		{ Vector3.forward, false },
-		{ Vector3.back, false }
+		{ Vector3.left.ToString, false },
+		{ Vector3.right.ToString, false },
+		{ Vector3.forward.ToString, true },
+		{ Vector3.back.ToString, true }
 	};
+	*/
 
     // Stairs
     private const int DISTANCE_BETWEEN_STEPS = 7;
@@ -82,6 +85,10 @@ public class WorldGenerator : MonoBehaviour {
 		return Instantiate(fire, position, Quaternion.identity);
     }
 
+	private bool shouldRotate(Vector3 dir) {
+		return (dir == Vector3.left || dir == Vector3.right);
+			
+	}
 	/// <summary>
 	/// Spawns fire with a given probability but never the first or last platforms, with increasing time
 	/// to live the further the platform is from the beginning
@@ -96,10 +103,14 @@ public class WorldGenerator : MonoBehaviour {
 			if (posIndex >= 2 && posIndex <= platforms.Count) {
 				var firePrefab = SpawnFire(position);
 
-				if (vectorHorizontalMap [currentDirection]) {
-					//firePrefab.rotation = nintyDegrees;
+				try {
+					if (shouldRotate(currentDirection)) {
+						firePrefab.rotation = nintyDegrees;
+					}
+				} catch (System.Exception e) {
+					Debug.LogError("Unable to determine direction from: " + currentDirection + ", ");
 				}
-			
+
 				var fireScript = (Fire)firePrefab.GetChild(0).GetComponent(typeof(Fire));
 
 				var rand = Random.Range (4.0f, 6.0f);
