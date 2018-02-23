@@ -201,6 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attractionForce: 10
   explosionPrefab: {fileID: 423882, guid: 3c5f4e32698bdb04eaed647f60310510, type: 2}
+  selfDestructHeight: -25
 --- !u!135 &135142371047277140
 SphereCollider:
   m_ObjectHideFlags: 1

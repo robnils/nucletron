@@ -8,6 +8,7 @@ TagManager:
   - Main
   - Platform
   - WorldGenerator
+  - Level
   layers:
   - Default
   - TransparentFX

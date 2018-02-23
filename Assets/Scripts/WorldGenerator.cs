@@ -2,19 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 public class WorldGenerator : MonoBehaviour {
 
     public Transform platform;
     public Transform finish;
-    public Transform finishPlatform;
-    public Transform finishPillar;
+    public Transform fire;
 
     private List<Vector3> directions;
     private List<Transform> platforms;
+	private Dictionary<Vector3, int> platformPositionIndexMap;
 
     public int startingLevel;
     private int currentLevel;
+
+	private Quaternion nintyDegrees;
+
+	// Fire
+    public float spawnFireProbabilityBase;
+	private float spawnFireProbability;
+	private const float SPAWN_FIRE_PROBABILITY_MAX = 0.9f;
+	private const float SPAWN_FIRE_PROBABILITY_STEP = 0.05f;
 
     // Platform path
     private const float DISTANCE_BETWEEN_PLATFORMS_MIN = 1.0f;
@@ -23,6 +32,15 @@ public class WorldGenerator : MonoBehaviour {
     private const int PATH_LENGTH_MAX = 6; 
     private const int PATH_HEIGHT_MIN = 1;
     private const int PATH_HEIGHT_MAX = 2;
+	private Vector3 currentDirection;
+	private Vector3[] directions2d = { Vector3.left, Vector3.right, Vector3.forward, Vector3.back };
+	private Dictionary<Vector3, bool> vectorHorizontalMap = new Dictionary<Vector3, bool>
+	{
+		{ Vector3.left, true },
+		{ Vector3.right, true },
+		{ Vector3.forward, false },
+		{ Vector3.back, false }
+	};
 
     // Stairs
     private const int DISTANCE_BETWEEN_STEPS = 7;
@@ -32,14 +50,13 @@ public class WorldGenerator : MonoBehaviour {
     private const int NUMBER_OF_STEPS_MAX = 5;
     private const int STAIRS_DIRECTION = 1; // +/- 1
 
-    private Vector3[] directions2d = { Vector3.left, Vector3.right, Vector3.forward, Vector3.back };
-
     void Start () {
         Assert.IsNotNull(this.platform, "Platform prefab not defined");
         Assert.IsNotNull(this.finish, "Finish prefab not defined");
-        Assert.IsNotNull(this.finishPlatform, "Finish platform prefab not defined");
-        currentLevel = startingLevelx; 
-        Debug.Log("Building level: " + currentLevel);
+        Assert.IsNotNull(this.finish, "Finish platform prefab not defined");
+        
+		currentLevel = startingLevel; 
+		nintyDegrees = Quaternion.Euler(0, 90, 0);
         BuildWorld(currentLevel);
     }
 
@@ -61,6 +78,41 @@ public class WorldGenerator : MonoBehaviour {
         }
     }
 
+	private Transform SpawnFire(Vector3 position) {		
+		return Instantiate(fire, position, Quaternion.identity);
+    }
+
+	/// <summary>
+	/// Spawns fire with a given probability but never the first or last platforms, with increasing time
+	/// to live the further the platform is from the beginning
+	/// </summary>
+	/// <returns>The fire.</returns>
+	/// <param name="position">Position.</param>
+	/// <param name="probability">Probability.</param>
+	private Transform SpawnFire(Vector3 position, float probability) {
+        if (Random.Range(0.0f, 1.0f) <= probability) {
+			
+			int posIndex = platformPositionIndexMap [position];
+			if (posIndex >= 2 && posIndex <= platforms.Count) {
+				var firePrefab = SpawnFire(position);
+
+				if (vectorHorizontalMap [currentDirection]) {
+					//firePrefab.rotation = nintyDegrees;
+				}
+			
+				var fireScript = (Fire)firePrefab.GetChild(0).GetComponent(typeof(Fire));
+
+				var rand = Random.Range (4.0f, 6.0f);
+				var timeToLive = rand * (float)(posIndex) * 0.75f;
+				fireScript.SetTimeToLive(timeToLive); 
+				Debug.Log ("Spawned fire: " + position + ", " + timeToLive);
+				return firePrefab;
+			}
+			Debug.Log ("Position not suitable for fire spawn: " + posIndex); 
+        }
+		return null;
+    }
+
     public void NextLevel() {
         ClearWorld();
         currentLevel++;
@@ -73,9 +125,30 @@ public class WorldGenerator : MonoBehaviour {
         BuildWorld(currentLevel);
     }
 
-    public Transform BuildWorld(int level) { 
+    private void UpdateLevelText() {
+        GameObject levelObject = GameObject.Find("Level");
+        var txt = levelObject.GetComponent<Text>();
+        txt.text = "Level : " + currentLevel;
+    }
+
+	private void calculateSpawnFireProbability(int level) {
+		if (spawnFireProbability < SPAWN_FIRE_PROBABILITY_MAX) {
+			spawnFireProbability = spawnFireProbabilityBase + SPAWN_FIRE_PROBABILITY_STEP * (float)level;
+		} else {
+			spawnFireProbability = SPAWN_FIRE_PROBABILITY_MAX;
+		}
+	}
+
+    public Transform BuildWorld(int level) {
+		Debug.Log("Building level: " + currentLevel);
+
+        UpdateLevelText();
+
         platforms = new List<Transform>();
         directions = new List<Vector3>();
+		platformPositionIndexMap = new Dictionary<Vector3, int>();
+
+		calculateSpawnFireProbability(currentLevel);
 
         // TODO prevent collisions by forcing new direction generation if it the platform collides
         var main = CreatePlatform(Vector3.zero, this.platform);
@@ -144,13 +217,17 @@ public class WorldGenerator : MonoBehaviour {
     }
 
     private Transform BuildPath(Transform startPlatform, Vector3 startDirection, int depth) {
-        var currentDirection = startDirection;
+        currentDirection = startDirection;
         var platform = startPlatform;
 
         for (int idx = 0; idx < depth; idx++) {
             Debug.Log("Building: " + currentDirection);
             var height = Random.Range(PATH_HEIGHT_MIN, PATH_HEIGHT_MAX);
             var newPlatform = BuildInDirection(platform, currentDirection, this.platform, height, 2.0f);
+
+            if (platforms.Count > 3) {
+                SpawnFire(newPlatform.transform.localPosition, spawnFireProbability);
+            }
 
             //var newDirection = GetRandomDirection(currentDirection);            
             var newDirection = GetNextDirection(currentDirection);
@@ -224,6 +301,7 @@ public class WorldGenerator : MonoBehaviour {
     private Transform CreatePlatform(Vector3 position, Transform prefab) {
         var newPlatform = Instantiate(prefab, position, Quaternion.identity);
         platforms.Add(newPlatform);
+		platformPositionIndexMap.Add(position, platforms.Count - 1);
         return newPlatform;
     }
 
@@ -236,7 +314,7 @@ public class WorldGenerator : MonoBehaviour {
     }
 
     private Transform CreateFinish(Transform position) {
-        var finalPlatform = BuildInDirection(position, Vector3.forward, this.finishPlatform);
+        var finalPlatform = BuildInDirection(position, Vector3.forward, this.finish);
         finalPlatform.Rotate(0, 90, 0);
         platforms.Add(finalPlatform);
 

@@ -30,6 +30,6 @@ public class MeteorSpawner : MonoBehaviour
         //var offset = new Vector3(player.localPosition.x, 0, 0);
         var spawnPosition = player.localPosition + Random.onUnitSphere * spawnDistance;
         spawn.transform.localPosition = spawnPosition;
-        Debug.Log("Spawned meteor at: {}" + spawnPosition);
+        //Debug.Log("Spawned meteor at: {}" + spawnPosition);
     }
 }
