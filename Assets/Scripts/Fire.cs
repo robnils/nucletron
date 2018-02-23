@@ -19,6 +19,8 @@ public class Fire : MonoBehaviour {
         //timeToLive = Random.Range(5.0f, 5.0f);
 		timeToLive = 3.0f;
 
+		//transform.rotation = Quaternion.Euler(0, 90, 0);
+
     }
 	
 	// Update is called once per frame

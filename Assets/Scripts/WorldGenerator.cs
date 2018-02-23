@@ -17,6 +17,8 @@ public class WorldGenerator : MonoBehaviour {
     public int startingLevel;
     private int currentLevel;
 
+	private Quaternion nintyDegrees;
+
 	// Fire
     public float spawnFireProbabilityBase;
 	private float spawnFireProbability;
@@ -52,9 +54,9 @@ public class WorldGenerator : MonoBehaviour {
         Assert.IsNotNull(this.platform, "Platform prefab not defined");
         Assert.IsNotNull(this.finish, "Finish prefab not defined");
         Assert.IsNotNull(this.finish, "Finish platform prefab not defined");
-        currentLevel = startingLevel; 
-        Debug.Log("Building level: " + currentLevel);
-
+        
+		currentLevel = startingLevel; 
+		nintyDegrees = Quaternion.Euler(0, 90, 0);
         BuildWorld(currentLevel);
     }
 
@@ -95,7 +97,7 @@ public class WorldGenerator : MonoBehaviour {
 				var firePrefab = SpawnFire(position);
 
 				if (vectorHorizontalMap [currentDirection]) {
-					firePrefab.Rotate(0, 90, 0);
+					//firePrefab.rotation = nintyDegrees;
 				}
 			
 				var fireScript = (Fire)firePrefab.GetChild(0).GetComponent(typeof(Fire));
@@ -138,6 +140,7 @@ public class WorldGenerator : MonoBehaviour {
 	}
 
     public Transform BuildWorld(int level) {
+		Debug.Log("Building level: " + currentLevel);
 
         UpdateLevelText();
 
