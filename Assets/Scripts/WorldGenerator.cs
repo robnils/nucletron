@@ -20,6 +20,7 @@ public class WorldGenerator : MonoBehaviour {
 	private Quaternion nintyDegrees;
 
 	// Fire
+	private Dictionary<Transform, bool> fires;
     public float spawnFireProbabilityBase;
 	private float spawnFireProbability;
 	private const float SPAWN_FIRE_PROBABILITY_MAX = 0.9f;
@@ -79,10 +80,17 @@ public class WorldGenerator : MonoBehaviour {
             Debug.Log("Deleting: " + t);
             Destroy(t.gameObject); 
         }
+
+		foreach (var k in fires.Keys) {
+			Debug.Log("Deleting: " + k);
+			Destroy(k.gameObject); 
+		}
     }
 
 	private Transform SpawnFire(Vector3 position) {		
-		return Instantiate(fire, position, Quaternion.identity);
+		var prefab = Instantiate(fire, position, Quaternion.identity);
+		fires.Add(prefab, true);
+		return prefab;
     }
 
 	private bool shouldRotate(Vector3 dir) {
@@ -155,6 +163,7 @@ public class WorldGenerator : MonoBehaviour {
 
         UpdateLevelText();
 
+		fires = new Dictionary<Transform, bool>();
         platforms = new List<Transform>();
         directions = new List<Vector3>();
 		platformPositionIndexMap = new Dictionary<Vector3, int>();

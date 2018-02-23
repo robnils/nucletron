@@ -49,6 +49,13 @@ public class Player : MonoBehaviour {
     void FixedUpdate () {
         CheckPlayerDeath();
 		CheckInvinsibility ();
+		CheckInput();
+	}
+
+	void CheckInput() {
+		if(Input.GetKeyDown(KeyCode.K)) {
+			ResetPlayer();
+		}
 	}
 
     public void ResetPlayer() {
