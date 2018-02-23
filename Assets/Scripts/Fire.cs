@@ -18,6 +18,9 @@ public class Fire : MonoBehaviour {
         player = GetPlayer(); // TODO move all instances to gameController
         //timeToLive = Random.Range(5.0f, 5.0f);
 		timeToLive = 3.0f;
+
+		//transform.rotation = Quaternion.Euler(0, 90, 0);
+
     }
 	
 	// Update is called once per frame
