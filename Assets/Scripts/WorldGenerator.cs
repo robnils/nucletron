@@ -14,7 +14,6 @@ public class WorldGenerator : MonoBehaviour {
     private List<Transform> platforms;
 	private Dictionary<Vector3, int> platformPositionIndexMap;
 
-
     public int startingLevel;
     private int currentLevel;
 
@@ -31,6 +30,15 @@ public class WorldGenerator : MonoBehaviour {
     private const int PATH_LENGTH_MAX = 6; 
     private const int PATH_HEIGHT_MIN = 1;
     private const int PATH_HEIGHT_MAX = 2;
+	private Vector3 currentDirection;
+	private Vector3[] directions2d = { Vector3.left, Vector3.right, Vector3.forward, Vector3.back };
+	private Dictionary<Vector3, bool> vectorHorizontalMap = new Dictionary<Vector3, bool>
+	{
+		{ Vector3.left, true },
+		{ Vector3.right, true },
+		{ Vector3.forward, false },
+		{ Vector3.back, false }
+	};
 
     // Stairs
     private const int DISTANCE_BETWEEN_STEPS = 7;
@@ -40,22 +48,6 @@ public class WorldGenerator : MonoBehaviour {
     private const int NUMBER_OF_STEPS_MAX = 5;
     private const int STAIRS_DIRECTION = 1; // +/- 1
 
-    private Vector3[] directions2d = { Vector3.left, Vector3.right, Vector3.forward, Vector3.back };
-
-	/*
-    private Fire fireScript;
-    private Fire InitialiseFireScript() {
-		if (fireScript != null) {
-			try {
-				GameObject go = GameObject.Find("Fire");
-				fireScript = (Fire)go.GetComponent(typeof(Fire));
-			} catch (System.NullReferenceException ex) {
-				Debug.LogError(ex);
-			}
-		}
-		return fireScript;        
-    }
-	*/
     void Start () {
         Assert.IsNotNull(this.platform, "Platform prefab not defined");
         Assert.IsNotNull(this.finish, "Finish prefab not defined");
@@ -101,7 +93,11 @@ public class WorldGenerator : MonoBehaviour {
 			int posIndex = platformPositionIndexMap [position];
 			if (posIndex >= 2 && posIndex <= platforms.Count) {
 				var firePrefab = SpawnFire(position);
-				firePrefab.Rotate(0, 90, 0);
+
+				if (vectorHorizontalMap [currentDirection]) {
+					firePrefab.Rotate(0, 90, 0);
+				}
+			
 				var fireScript = (Fire)firePrefab.GetChild(0).GetComponent(typeof(Fire));
 
 				var rand = Random.Range (4.0f, 6.0f);
@@ -218,7 +214,7 @@ public class WorldGenerator : MonoBehaviour {
     }
 
     private Transform BuildPath(Transform startPlatform, Vector3 startDirection, int depth) {
-        var currentDirection = startDirection;
+        currentDirection = startDirection;
         var platform = startPlatform;
 
         for (int idx = 0; idx < depth; idx++) {

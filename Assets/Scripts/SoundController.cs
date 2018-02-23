@@ -6,9 +6,9 @@ public class SoundController : MonoBehaviour {
 	
 	public AudioSource source;
 	public AudioClip backgroundMusic;
-	public AudioClip hurt;
-	public AudioClip death;
-	public AudioClip fallDeath;
+	public AudioClip[] hurt;
+	public AudioClip[] death;
+	public AudioClip[] fallDeath;
     public AudioClip levelComplete;
 
     // Use this for initialization
@@ -22,9 +22,13 @@ public class SoundController : MonoBehaviour {
 		source.PlayOneShot(backgroundMusic);
 	}
 
+	private AudioClip choseRandom(AudioClip[] lst) {
+		return lst[Random.Range (0, lst.Length)];
+	}
+
 	public void playFallDeath() {
 		source.loop = false;
-		source.PlayOneShot(fallDeath);
+		source.PlayOneShot(choseRandom(fallDeath));
 		source.loop = true;
 	}
 
@@ -36,13 +40,13 @@ public class SoundController : MonoBehaviour {
 
     public void playDeath() {
 		source.loop = false;
-		source.PlayOneShot(death);
+		source.PlayOneShot(choseRandom(death));
 		source.loop = true;
 	}
 
 	public void playHurt() {
 		source.loop = false;
-		source.PlayOneShot(hurt);
+		source.PlayOneShot(choseRandom(hurt));
 		source.loop = true;
 	}
 }

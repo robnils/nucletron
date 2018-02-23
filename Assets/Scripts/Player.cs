@@ -52,6 +52,7 @@ public class Player : MonoBehaviour {
 
     public void ResetPlayer() {
         UpdateHealth(maxHealth);
+		ResetWorld ();
 		MovePlayerToStart();
 		alive = true;
     }
