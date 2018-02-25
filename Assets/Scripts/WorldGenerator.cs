@@ -47,9 +47,10 @@ public class WorldGenerator : MonoBehaviour {
 	*/
 
     // Stairs
-    private const int DISTANCE_BETWEEN_STEPS = 7;
+    private const int MIN_DISTANCE_BETWEEN_STEPS = 7;
+    private const int MAX_DISTANCE_BETWEEN_STEPS = 10;
     private const int STEP_HEIGHT_MIN = 1;
-    private const int STEP_HEIGHT_MAX = 2;
+    private const int STEP_HEIGHT_MAX = 3;
     private const int NUMBER_OF_STEPS_MIN = 3;
     private const int NUMBER_OF_STEPS_MAX = 5;
     private const int STAIRS_DIRECTION = 1; // +/- 1
@@ -83,7 +84,9 @@ public class WorldGenerator : MonoBehaviour {
 
 		foreach (var k in fires.Keys) {
 			Debug.Log("Deleting: " + k);
-			Destroy(k.gameObject); 
+            if (k != null) {
+                Destroy(k.gameObject);
+            }
 		}
     }
 
@@ -182,7 +185,8 @@ public class WorldGenerator : MonoBehaviour {
             platform = BuildPath(platform, startingDirection, pathLength);
 
             var stairLength = Random.Range(NUMBER_OF_STEPS_MIN, NUMBER_OF_STEPS_MAX + 1);
-            platform = BuildStairs(platform, stairLength, DISTANCE_BETWEEN_STEPS, 1);
+            int distBetweenSteps = Random.Range(MIN_DISTANCE_BETWEEN_STEPS, MAX_DISTANCE_BETWEEN_STEPS);
+            platform = BuildStairs(platform, stairLength, distBetweenSteps, 1);
 
             /*
             pathLength = Random.Range(PATH_LENGTH_MIN, PATH_LENGTH_MAX + 1); ;
